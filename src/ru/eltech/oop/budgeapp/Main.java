@@ -3,47 +3,70 @@ package ru.eltech.oop.budgeapp;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.Month;
-import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
-        Category category = new Category("Транспорт", Color.BLUE, "🚎");
-        Category category2 = new Category("Отпуск", Color.GREEN, "🌴");
-        Category category3 = new Category("Еда", Color.red, "🍔");
+        BudgetManager manager = new DumbBudgetManager();
 
-        Currency rub = Currency.RUB;
+        init(manager);
 
-        Transaction transaction = new Transaction(
+        System.out.println("Все категории:");
+        for (Category category : manager.getAllCategories()) {
+            System.out.println(category);
+        }
+
+        System.out.println();
+        System.out.println("Все расходы:");
+        for (Transaction transaction : manager.getAllTransactions()) {
+            System.out.println(transaction);
+        }
+
+    }
+
+    private static void init(BudgetManager manager) {
+        Category transport = new Category("Транспорт", Color.BLUE, "🚎");
+        Category vacation = new Category("Отпуск", Color.GREEN, "🌴");
+        Category food = new Category("Еда", Color.red, "🍔");
+        Category supermarkets = new Category("Супермаркеты", Color.YELLOW, "🛒");
+        Category sport = new Category("Спорт", Color.ORANGE, "🏀");
+
+        manager.addCategory(transport);
+        manager.addCategory(vacation);
+        manager.addCategory(food);
+        manager.addCategory(supermarkets);
+        manager.addCategory(sport);
+
+        manager.addTransaction(new Transaction(
                 10.0,
                 LocalDate.now(),
-                category,
+                transport,
                 Currency.RUB,
                 ""
-        );
+        ));
 
-        BudgetManager manager = new DumbBudgetManager();
-        manager.addCategory(category);
-        manager.addCategory(category2);
-        manager.addCategory(category3);
-
-        manager.addTransaction(transaction);
         manager.addTransaction(new Transaction(
-                100.0,
-                LocalDate.of(2020, Month.APRIL, 23),
-                category2,
+                1000.0,
+                LocalDate.of(2020, Month.APRIL, 30),
+                vacation,
                 Currency.EUR,
                 ""
         ));
 
+        manager.addTransaction(new Transaction(
+                800.0,
+                LocalDate.now().minusDays(1),
+                food,
+                Currency.RUB,
+                "test"
+        ));
 
-        List<Transaction> transactions = manager.getTransactions(
-                LocalDate.of(2020, Month.MARCH, 1),
-                LocalDate.now().minusDays(1)
-        );
-
-        for (Transaction t : transactions) {
-            System.out.println(t);
-        }
+        manager.addTransaction(new Transaction(
+                20.1,
+                LocalDate.of(2020, Month.SEPTEMBER, 2),
+                sport,
+                Currency.USD,
+                "test"
+        ));
     }
 }
