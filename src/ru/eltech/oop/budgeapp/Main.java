@@ -3,6 +3,7 @@ package ru.eltech.oop.budgeapp;
 import java.awt.*;
 import java.time.LocalDate;
 import java.time.Month;
+import java.util.List;
 
 public class Main {
 
@@ -24,6 +25,13 @@ public class Main {
             System.out.println(transaction);
         }
 
+        List<Transaction> transactions = manager.getByCategory(new Category("Транспорт", Color.BLUE, "🚎"));
+
+        System.out.println();
+        System.out.println("Все расходы на траспорт");
+        for (Transaction transaction : transactions) {
+            System.out.println(transaction);
+        }
     }
 
     private static void init(BudgetManager manager) {
@@ -52,7 +60,7 @@ public class Main {
         manager.addTransaction(new Transaction(
                 1000.0,
                 LocalDate.of(2020, Month.APRIL, 30),
-                vacation,
+                carsharing,
                 Currency.EUR,
                 ""
         ));
@@ -60,7 +68,7 @@ public class Main {
         manager.addTransaction(new Transaction(
                 800.0,
                 LocalDate.now().minusDays(1),
-                food,
+                taxi,
                 Currency.RUB,
                 "test"
         ));

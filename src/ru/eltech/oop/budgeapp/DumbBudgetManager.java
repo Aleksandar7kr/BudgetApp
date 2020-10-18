@@ -111,4 +111,24 @@ public class DumbBudgetManager implements BudgetManager {
                 )
                 .collect(Collectors.toList());
     }
+
+    @Override
+    public List<Transaction> getByCategory(Category category) {
+        Set<Category> allSuitableCategories = new HashSet<>();
+        findSuitableCategories(allSuitableCategories, category);
+
+        return transactions.stream()
+                .filter(transaction -> allSuitableCategories.contains(transaction.getCategory()))
+                .collect(Collectors.toList());
+    }
+
+    private void findSuitableCategories(Set<Category> suitableCategories, Category current) {
+        suitableCategories.add(current);
+        Set<Category> subs = subCategories.get(current);
+        if (subs != null) {
+            for (Category sub : subs) {
+                findSuitableCategories(suitableCategories, sub);
+            }
+        }
+    }
 }

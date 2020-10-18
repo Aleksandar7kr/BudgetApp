@@ -21,4 +21,6 @@ public interface BudgetManager {
     List<Transaction> getAllTransactions();
 
     List<Transaction> getTransactions(LocalDate from, LocalDate to);
+
+    List<Transaction> getByCategory(Category category);
 }
