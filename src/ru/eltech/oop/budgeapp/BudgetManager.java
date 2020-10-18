@@ -1,11 +1,14 @@
 package ru.eltech.oop.budgeapp;
 
+import java.awt.*;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
 public interface BudgetManager {
-    void addCategory(Category category);
+    Category createCategory(String name, Color color, String icon);
+
+    Category createCategory(String name, Color color, String icon, Category parent);
 
     void removeCategory(Category category);
 

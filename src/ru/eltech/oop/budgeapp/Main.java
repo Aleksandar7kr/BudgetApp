@@ -11,6 +11,8 @@ public class Main {
 
         init(manager);
 
+        manager.getAllCategories().stream().findAny().ifPresent(category -> manager.removeCategory(category));
+
         System.out.println("Все категории:");
         for (Category category : manager.getAllCategories()) {
             System.out.println(category);
@@ -25,17 +27,19 @@ public class Main {
     }
 
     private static void init(BudgetManager manager) {
-        Category transport = new Category("Транспорт", Color.BLUE, "🚎");
-        Category vacation = new Category("Отпуск", Color.GREEN, "🌴");
-        Category food = new Category("Еда", Color.red, "🍔");
-        Category supermarkets = new Category("Супермаркеты", Color.YELLOW, "🛒");
-        Category sport = new Category("Спорт", Color.ORANGE, "🏀");
+        Category transport = manager.createCategory("Транспорт", Color.BLUE, "🚎");
 
-        manager.addCategory(transport);
-        manager.addCategory(vacation);
-        manager.addCategory(food);
-        manager.addCategory(supermarkets);
-        manager.addCategory(sport);
+        Category taxi = manager.createCategory("Такси", Color.YELLOW, "🚕", transport);
+        Category carsharing = manager.createCategory("Каршеринг", Color.GREEN, "🚗", transport);
+        Category cityTransport = manager.createCategory("ОТ", Color.MAGENTA, "🚌", transport);
+
+        Category vacation = manager.createCategory("Отпуск", Color.GREEN, "🌴");
+        manager.createCategory("Авиабилеты", Color.CYAN, "✈", vacation);
+        manager.createCategory("Отели", Color.CYAN, "🏨", vacation);
+
+        Category food = manager.createCategory("Еда", Color.red, "🍔");
+        Category supermarkets = manager.createCategory("Супермаркеты", Color.YELLOW, "🛒");
+        Category sport = manager.createCategory("Спорт", Color.ORANGE, "🏀");
 
         manager.addTransaction(new Transaction(
                 10.0,
