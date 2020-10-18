@@ -59,7 +59,7 @@ public class DumbBudgetManager implements BudgetManager {
         Set<Category> subs = subCategories.get(categoryToRemove);
         if (subs != null) {
             for (Category subCategory : subs) {
-                parents.remove(categoryToRemove);
+                parents.remove(subCategory);
                 parents.put(subCategory, newTransactionCategory);
             }
         }
