@@ -105,11 +105,15 @@ public class DumbBudgetManager implements BudgetManager {
     public List<Transaction> getTransactions(LocalDate from, LocalDate to) {
         return transactions
                 .stream()
-                .filter(t ->
-                        t.getDate().isAfter(from.minusDays(1)) &&
-                                t.getDate().isBefore(to.plusDays(1))
-                )
+                .filter(t -> {
+                    LocalDate date = t.getDate();
+                    return date.equals(from) || date.equals(to) || isBetweenFromTo(from, to, date);
+                })
                 .collect(Collectors.toList());
+    }
+
+    private boolean isBetweenFromTo(LocalDate from, LocalDate to, LocalDate date) {
+        return date.isAfter(from) && date.isBefore(to);
     }
 
     @Override
