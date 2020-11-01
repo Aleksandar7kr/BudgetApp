@@ -1,7 +1,6 @@
 package ru.eltech.oop.budgeapp;
 
 import java.awt.*;
-import java.time.LocalDate;
 import java.util.List;
 import java.util.Set;
 
@@ -20,7 +19,6 @@ public interface BudgetManager {
 
     List<Transaction> getAllTransactions();
 
-    List<Transaction> getTransactions(LocalDate from, LocalDate to);
+    List<Transaction> getTransactions(Request request);
 
-    List<Transaction> getByCategory(Category category);
 }

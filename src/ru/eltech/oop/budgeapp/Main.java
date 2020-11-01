@@ -25,7 +25,11 @@ public class Main {
             System.out.println(transaction);
         }
 
-        List<Transaction> transactions = manager.getByCategory(new Category("Транспорт", Color.BLUE, "🚎"));
+        List<Transaction> transactions = manager.getTransactions(new Request(
+                new Category("Транспорт", Color.BLUE, "🚎"),
+                LocalDate.MIN,
+                LocalDate.MAX
+        ));
 
         System.out.println();
         System.out.println("Все расходы на траспорт");

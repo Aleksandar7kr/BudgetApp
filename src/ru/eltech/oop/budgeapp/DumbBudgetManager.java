@@ -33,7 +33,7 @@ public class DumbBudgetManager implements BudgetManager {
 
         categories.add(newCategory);
 
-        if (parent != null && categories.contains(parent)) {
+        if (categories.contains(parent)) {
             parents.put(newCategory, parent);
             subCategories
                     .computeIfAbsent(parent, aLong -> new HashSet<>())
@@ -102,13 +102,22 @@ public class DumbBudgetManager implements BudgetManager {
 
     @Override
     public List<Transaction> getAllTransactions() {
-        return Collections.unmodifiableList(transactions);
+        return getTransactions(new Request(EMPTY, LocalDate.MIN, LocalDate.MAX));
     }
 
     @Override
-    public List<Transaction> getTransactions(LocalDate from, LocalDate to) {
+    public List<Transaction> getTransactions(Request request) {
+        Category requestedCategory = request.getCategory();
+
+        Set<Category> allSuitableCategories = new HashSet<>();
+        findSuitableCategories(allSuitableCategories, requestedCategory);
+
+        LocalDate from = request.getFrom();
+        LocalDate to = request.getTo();
+
         return transactions
                 .stream()
+                .filter(t -> allSuitableCategories.contains(t.getCategory()))
                 .filter(t -> {
                     LocalDate date = t.getDate();
                     return date.equals(from) || date.equals(to) || isBetweenFromTo(from, to, date);
@@ -118,16 +127,6 @@ public class DumbBudgetManager implements BudgetManager {
 
     private boolean isBetweenFromTo(LocalDate from, LocalDate to, LocalDate date) {
         return date.isAfter(from) && date.isBefore(to);
-    }
-
-    @Override
-    public List<Transaction> getByCategory(Category category) {
-        Set<Category> allSuitableCategories = new HashSet<>();
-        findSuitableCategories(allSuitableCategories, category);
-
-        return transactions.stream()
-                .filter(transaction -> allSuitableCategories.contains(transaction.getCategory()))
-                .collect(Collectors.toList());
     }
 
     private void findSuitableCategories(Set<Category> suitableCategories, Category current) {
