@@ -25,11 +25,13 @@ public class Main {
             System.out.println(transaction);
         }
 
-        List<Transaction> transactions = manager.getTransactions(new Request(
-                new Category("Транспорт", Color.BLUE, "🚎"),
-                LocalDate.MIN,
-                LocalDate.MAX
-        ));
+
+        Request request = new RequestBuilder()
+                .withCategory(new Category("Транспорт", Color.BLUE, "🚎"))
+                .withFrom(2020, Month.SEPTEMBER, 1)
+                .withTo(LocalDate.MAX)
+                .build();
+        List<Transaction> transactions = manager.getTransactions(request);
 
         System.out.println();
         System.out.println("Все расходы на траспорт");

@@ -7,7 +7,6 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 public class DumbBudgetManager implements BudgetManager {
-    private static final Category EMPTY = new Category("Без категории", Color.WHITE, "");
 
     private final Set<Category> categories = new HashSet<>();
     private final List<Transaction> transactions = new ArrayList<>();
@@ -102,7 +101,7 @@ public class DumbBudgetManager implements BudgetManager {
 
     @Override
     public List<Transaction> getAllTransactions() {
-        return getTransactions(new Request(EMPTY, LocalDate.MIN, LocalDate.MAX));
+        return getTransactions(new RequestBuilder().withCategory(EMPTY).withFrom(LocalDate.MIN).withTo(LocalDate.MAX).build());
     }
 
     @Override
