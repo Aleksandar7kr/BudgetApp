@@ -108,8 +108,14 @@ public class DumbBudgetManager implements BudgetManager {
     public List<Transaction> getTransactions(Request request) {
         Category requestedCategory = request.getCategory();
 
-        Set<Category> allSuitableCategories = new HashSet<>();
-        findSuitableCategories(allSuitableCategories, requestedCategory);
+        Set<Category> allSuitableCategories;
+
+        if (requestedCategory.equals(EMPTY)) {
+            allSuitableCategories = categories;
+        } else {
+            allSuitableCategories = new HashSet<>();
+            findSuitableCategories(allSuitableCategories, requestedCategory);
+        }
 
         LocalDate from = request.getFrom();
         LocalDate to = request.getTo();
