@@ -18,6 +18,10 @@ public class DumbBudgetManager implements BudgetManager {
     // map category to its set of subcategories
     private final Map<Category, Set<Category>> subCategories = new HashMap<>();
 
+    public DumbBudgetManager() {
+        categories.add(EMPTY);
+    }
+
     @Override
     public Category createCategory(String name, Color color, String icon) {
         return createCategory(name, color, icon, EMPTY);
